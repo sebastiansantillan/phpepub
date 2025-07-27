@@ -8,22 +8,21 @@ use PHPEpub\Exception\EpubException;
 use PHPEpub\Structure\Chapter;
 use PHPEpub\Structure\Metadata;
 use PHPEpub\Generator\EpubGenerator;
+use PHPEpub\Enum\ImageMimeType;
 
 /**
  * Clase principal para construir archivos EPUB
  */
 class EpubBuilder
 {
-    private Metadata $metadata;
     private array $chapters = [];
     private array $images = [];
     private array $stylesheets = [];
-    private EpubGenerator $generator;
 
-    public function __construct()
-    {
-        $this->metadata = new Metadata();
-        $this->generator = new EpubGenerator();
+    public function __construct(
+        private readonly Metadata $metadata = new Metadata(),
+        private readonly EpubGenerator $generator = new EpubGenerator()
+    ) {
     }
 
     /**
@@ -101,6 +100,14 @@ class EpubBuilder
     {
         if (!file_exists($imagePath)) {
             throw new EpubException("El archivo de imagen no existe: {$imagePath}");
+        }
+
+        // Validar que sea un tipo de imagen soportado
+        $extension = strtolower(pathinfo($imagePath, PATHINFO_EXTENSION));
+        
+        if (!ImageMimeType::isValidExtension($extension)) {
+            $validExtensions = implode(', ', ImageMimeType::getValidExtensions());
+            throw new EpubException("Formato de imagen no soportado: {$extension}. Formatos válidos: {$validExtensions}");
         }
 
         $this->images[] = [

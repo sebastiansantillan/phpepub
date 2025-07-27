@@ -9,17 +9,15 @@ namespace PHPEpub\Structure;
  */
 class Chapter
 {
-    private string $title;
-    private string $content;
-    private string $filename;
-    private int $order;
     private static int $chapterCounter = 0;
+    private readonly int $order;
 
-    public function __construct(string $title, string $content, ?string $filename = null)
-    {
-        $this->title = $title;
-        $this->content = $content;
-        $this->filename = $filename ?? $this->generateFilename($title);
+    public function __construct(
+        private string $title,
+        private string $content,
+        private string $filename = ''
+    ) {
+        $this->filename = $filename ?: $this->generateFilename($title);
         $this->order = ++self::$chapterCounter;
     }
 
@@ -59,12 +57,6 @@ class Chapter
     public function getOrder(): int
     {
         return $this->order;
-    }
-
-    public function setOrder(int $order): self
-    {
-        $this->order = $order;
-        return $this;
     }
 
     /**

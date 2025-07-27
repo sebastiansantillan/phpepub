@@ -7,6 +7,7 @@ namespace PHPEpub\Generator;
 use PHPEpub\Structure\Metadata;
 use PHPEpub\Structure\Chapter;
 use PHPEpub\Exception\EpubException;
+use PHPEpub\Enum\ImageMimeType;
 use ZipArchive;
 use DOMDocument;
 
@@ -336,15 +337,7 @@ img {
     private function getImageMimeType(string $imagePath): string
     {
         $extension = strtolower(pathinfo($imagePath, PATHINFO_EXTENSION));
-        
-        return match ($extension) {
-            'jpg', 'jpeg' => 'image/jpeg',
-            'png' => 'image/png',
-            'gif' => 'image/gif',
-            'svg' => 'image/svg+xml',
-            'webp' => 'image/webp',
-            default => 'image/jpeg'
-        };
+        return ImageMimeType::fromExtension($extension)->value;
     }
 
     private function getImageExtension(string $imagePath): string

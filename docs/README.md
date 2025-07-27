@@ -15,7 +15,7 @@
 
 ### Requisitos del Sistema
 
-- PHP 7.4 o superior
+- PHP 8.3 o superior
 - Extensión ZIP habilitada
 - Extensión DOM habilitada
 - Extensión libxml habilitada

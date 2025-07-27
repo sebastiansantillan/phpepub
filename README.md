@@ -9,7 +9,7 @@ Una librería PHP moderna para crear archivos EPUB de forma sencilla y eficiente
 - ✅ Gestión de metadatos (título, autor, idioma, etc.)
 - ✅ Soporte para imágenes y CSS
 - ✅ Interfaz fluida y fácil de usar
-- ✅ Compatible con PHP 7.4+
+- ✅ Compatible con PHP 8.3+
 
 ## Instalación
 

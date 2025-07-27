@@ -9,20 +9,19 @@ namespace PHPEpub\Structure;
  */
 class Metadata
 {
-    private string $title = '';
-    private string $author = '';
-    private string $language = 'es';
-    private string $description = '';
-    private string $isbn = '';
-    private string $publisher = '';
-    private string $publicationDate = '';
-    private string $cover = '';
-    private string $identifier = '';
-
-    public function __construct()
-    {
-        $this->identifier = uniqid('epub_');
-        $this->publicationDate = date('Y-m-d\TH:i:s\Z');
+    public function __construct(
+        private string $title = '',
+        private string $author = '',
+        private string $language = 'es',
+        private string $description = '',
+        private string $isbn = '',
+        private string $publisher = '',
+        private string $publicationDate = '',
+        private string $cover = '',
+        private string $identifier = ''
+    ) {
+        $this->identifier = $identifier ?: uniqid('epub_');
+        $this->publicationDate = $publicationDate ?: date('Y-m-d\TH:i:s\Z');
     }
 
     public function setTitle(string $title): self

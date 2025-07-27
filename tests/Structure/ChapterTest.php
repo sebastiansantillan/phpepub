@@ -95,8 +95,8 @@ class ChapterTest extends TestCase
         $this->assertInstanceOf(Chapter::class, $result);
         $this->assertEquals('new_filename.xhtml', $chapter->getFilename());
         
-        $result = $chapter->setOrder(10);
-        $this->assertInstanceOf(Chapter::class, $result);
-        $this->assertEquals(10, $chapter->getOrder());
+        // Order is readonly and set automatically, so we just test it exists
+        $this->assertIsInt($chapter->getOrder());
+        $this->assertGreaterThan(0, $chapter->getOrder());
     }
 }
