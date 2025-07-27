@@ -1,0 +1,37 @@
+{
+    "name": "sebastiansantillan/phpepub",
+    "description": "Una librería PHP para crear archivos EPUB",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastián Santillán",
+            "email": "sebastian.santillan@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-zip": "*",
+        "ext-dom": "*",
+        "ext-libxml": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "phpstan/phpstan": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPEpub\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PHPEpub\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyze": "phpstan analyse src --level=5"
+    },
+    "minimum-stability": "stable"
+}

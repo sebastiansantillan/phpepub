@@ -1,0 +1,14 @@
+/vendor/
+/node_modules/
+/.idea/
+/.vscode/
+/build/
+/dist/
+*.log
+*.cache
+.phpunit.result.cache
+composer.lock
+.DS_Store
+Thumbs.db
+*.epub
+/examples/*.epub
