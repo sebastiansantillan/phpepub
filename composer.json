@@ -33,5 +33,6 @@
         "test": "phpunit",
         "analyze": "phpstan analyse src --level=5"
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "alpha",
+    "prefer-stable": true
 }
