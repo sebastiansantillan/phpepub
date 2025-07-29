@@ -71,6 +71,24 @@ class EpubBuilder
     }
 
     /**
+     * Establece las materias/categorías del libro
+     */
+    public function setSubjects(array $subjects): self
+    {
+        $this->metadata->setSubjects($subjects);
+        return $this;
+    }
+
+    /**
+     * Agrega una materia/categoría al libro
+     */
+    public function addSubject(string $subject): self
+    {
+        $this->metadata->addSubject($subject);
+        return $this;
+    }
+
+    /**
      * Establece la imagen de portada
      */
     public function setCover(string $imagePath): self
