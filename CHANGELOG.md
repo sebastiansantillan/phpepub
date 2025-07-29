@@ -12,6 +12,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Performance optimizations
 - New usage examples
 
+## [0.2.0-alpha] - 2025-07-29
+
+### Added
+- 📚 **Complete Subjects/Categories System** for EPUB metadata
+- ✨ Full subjects API with CRUD operations in Metadata class
+- 🔧 Fluent interface methods in EpubBuilder for subjects management
+- 🧪 Comprehensive test suite with 13 new tests for subjects functionality
+- 📖 New comprehensive example (`subjects_example.php`) demonstrating all functionality
+- 🌍 Dublin Core compliance with `dc:subject` elements in EPUB output
+- 📋 Enhanced examples with relevant subjects integration
+
+### Enhanced
+- 🔄 **Metadata constructor** now accepts subjects array parameter
+- 📚 **EpubGenerator** automatically includes subjects in package metadata
+- 📖 Updated existing examples with subjects demonstration
+- 🧪 Enhanced test coverage (48 tests, 140+ assertions)
+
+### Fixed
+- 🐛 **Chapter constructor** property initialization order
+- 🔧 **ChapterTest** compatibility with new language attributes
+- 📋 **Array reindexing** after subject removal operations
+
+### API Changes
+```
+New Metadata methods:
+- addSubject(string): self
+- removeSubject(string): self  
+- setSubjects(array): self
+- getSubjects(): array
+- hasSubject(string): bool
+- clearSubjects(): self
+
+New EpubBuilder methods:
+- addSubject(string): self
+- setSubjects(array): self
+```
+
+### Breaking Changes
+- **Metadata constructor** signature extended with optional subjects parameter
+- **Chapter HTML output** now includes language attributes by default
+
 ## [0.1.1-alpha] - 2025-07-29
 
 ### Added
