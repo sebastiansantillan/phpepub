@@ -12,6 +12,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Performance optimizations
 - New usage examples
 
+## [0.1.1-alpha] - 2025-07-29
+
+### Added
+- 🌍 **Enhanced WCAG accessibility compliance**
+- ✨ Language attributes (`xml:lang`, `lang`) in all HTML documents
+- 🔧 Package document with proper language metadata
+- 📚 Enhanced navigation documents with language support
+- 📖 Chapter documents with proper language markup
+- 🇪🇸 Complete Spanish example (`libro_avanzado_es.php`) with 5 chapters
+- 🧪 International character testing script (`test_spanish_accents.php`)
+
+### Fixed
+- 🐛 **HTML character escaping** for JavaScript arrow functions (`=>`)
+- 🔤 **Accent handling** in filename generation for international characters
+- 🌐 **UTF-8 support** for Spanish characters (ñ, á, é, í, ó, ú)
+- 📋 **BCP 47 compliance** for language codes
+- ♿ **WCAG 3.1.1 compliance** for language identification
+
+### Changed
+- 🔄 **API Enhancement**: `Chapter::getHtmlContent()` now accepts language parameter
+- 🔄 **Generator Methods**: Enhanced to pass language metadata
+- 🔄 **Navigation Generation**: Now includes proper language attributes
+- 🔄 **Package Generation**: Enhanced with language declarations
+
+### Technical Improvements
+- Enhanced `EpubGenerator` with language support in all document types
+- Improved `Chapter` class with international character handling
+- Better HTML entity escaping for code examples
+- Robust accent-to-ASCII conversion for filename generation
+
 ## [0.1.0-alpha] - 2025-07-26
 
 ### Added

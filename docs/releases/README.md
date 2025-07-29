@@ -6,6 +6,12 @@ This directory contains detailed release notes for each version of PHPEpub.
 
 ### Alpha Releases
 
+- [v0.1.1-alpha](v0.1.1-alpha.md) - Latest alpha release (July 29, 2025)
+  - Enhanced WCAG accessibility compliance
+  - Improved language support for international content
+  - Fixed HTML character escaping in code examples
+  - Better accent handling in filenames
+  - Complete Spanish example with web development content
 - [v0.1.0-alpha](v0.1.0-alpha.md) - First alpha release (July 26, 2025)
   - Initial PHPEpub release
   - EPUB 3.0 support
