@@ -1,0 +1,50 @@
+{
+    "name": "sebastiansantillan/phpepub",
+    "description": "A modern PHP library for creating EPUB3 files",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastián Santillán",
+            "email": "sebastian.santillan@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "ext-zip": "*",
+        "ext-dom": "*",
+        "ext-libxml": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "phpstan/phpstan": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPEpub\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PHPEpub\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyze": "phpstan analyse src --level=5",
+        "check-syntax": "find src tests examples -name '*.php' -exec php -l {} \\;",
+        "validate": "composer validate --strict",
+        "quality": [
+            "@validate",
+            "@check-syntax",
+            "@analyze",
+            "@test"
+        ],
+        "examples": [
+            "php examples/basic_example.php",
+            "php examples/advanced_example.php"
+        ]
+    },
+    "minimum-stability": "alpha",
+    "prefer-stable": true
+}

@@ -1,0 +1,62 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# IDE
+/.idea/
+/.vscode/
+*.swp
+*.swo
+
+# Build artifacts
+/build/
+/dist/
+
+# Logs
+*.log
+*.cache
+.phpunit.result.cache
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Generated EPUB files
+*.epub
+
+# Example outputs
+/examples/*.epub
+
+# Temporary files
+/tmp/
+*.tmp
+
+# Composer
+composer.lock
+composer.phar
+
+# PHPUnit
+/phpunit.xml.local
+/.phpunit.cache/
+
+# PHPStan
+/phpstan.neon.local
+/.phpstan/
+
+# Coverage reports
+/coverage/
+/coverage.xml
+/clover.xml
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Release preparation
+/release/
