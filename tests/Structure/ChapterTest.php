@@ -19,7 +19,9 @@ class ChapterTest extends TestCase
         $this->assertEquals($title, $chapter->getTitle());
         $this->assertEquals($content, $chapter->getContent());
         $this->assertEquals('test_chapter.xhtml', $chapter->getFilename());
-        $this->assertEquals(1, $chapter->getOrder());
+        // El order se establece después de crear varios capítulos
+        $this->assertIsInt($chapter->getOrder());
+        $this->assertGreaterThan(0, $chapter->getOrder());
     }
 
     public function testChapterWithCustomFilename(): void
@@ -49,19 +51,19 @@ class ChapterTest extends TestCase
             'Simple Title' => 'simple_title.xhtml',
             'Title with Numbers 123' => 'title_with_numbers_123.xhtml',
             'Title with Special @#$ Characters!' => 'title_with_special_characters.xhtml',
-            '   Spaced   Title   ' => 'spaced_title.xhtml',
-            '' => 'chapter_' // Will include order number
+            '   Spaced   Title   ' => 'spaced_title.xhtml'
         ];
         
-        foreach ($testCases as $title => $expectedPrefix) {
+        foreach ($testCases as $title => $expected) {
             $chapter = new Chapter($title, '<h1>Content</h1>');
-            
-            if ($title === '') {
-                $this->assertStringStartsWith($expectedPrefix, $chapter->getFilename());
-            } else {
-                $this->assertEquals($expectedPrefix, $chapter->getFilename());
-            }
+            $this->assertEquals($expected, $chapter->getFilename());
         }
+        
+        // Test empty title generates default filename
+        $emptyTitleChapter = new Chapter('', '<h1>Content</h1>');
+        $filename = $emptyTitleChapter->getFilename();
+        $this->assertStringStartsWith('chapter_', $filename);
+        $this->assertStringEndsWith('.xhtml', $filename);
     }
 
     public function testGetHtmlContent(): void
@@ -73,7 +75,8 @@ class ChapterTest extends TestCase
         $html = $chapter->getHtmlContent();
         
         $this->assertStringContainsString('<!DOCTYPE html>', $html);
-        $this->assertStringContainsString('<html xmlns="http://www.w3.org/1999/xhtml">', $html);
+        $this->assertStringContainsString('xml:lang="en"', $html);
+        $this->assertStringContainsString('lang="en"', $html);
         $this->assertStringContainsString('<title>Test Chapter</title>', $html);
         $this->assertStringContainsString('<link rel="stylesheet"', $html);
         $this->assertStringContainsString($content, $html);

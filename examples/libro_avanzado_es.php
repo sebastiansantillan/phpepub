@@ -13,7 +13,14 @@ try {
          ->setAuthor('María Elena Rodríguez')
          ->setLanguage('es')
          ->setDescription('Una guía exhaustiva sobre las últimas tendencias y tecnologías en desarrollo web, desde HTML5 hasta frameworks modernos de JavaScript.')
-         ->setIsbn('978-84-1234-567-8');
+         ->setIsbn('978-84-1234-567-8')
+         ->addSubject('Desarrollo Web')
+         ->addSubject('JavaScript')
+         ->addSubject('HTML5')
+         ->addSubject('CSS3')
+         ->addSubject('Programación')
+         ->addSubject('Frontend')
+         ->addSubject('Tutorial');
 
     // Configurar metadatos adicionales
     $metadata = $epub->getMetadata();

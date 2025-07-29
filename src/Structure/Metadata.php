@@ -18,7 +18,8 @@ class Metadata
         private string $publisher = '',
         private string $publicationDate = '',
         private string $cover = '',
-        private string $identifier = ''
+        private string $identifier = '',
+        private array $subjects = []
     ) {
         $this->identifier = $identifier ?: uniqid('epub_');
         $this->publicationDate = $publicationDate ?: date('Y-m-d\TH:i:s\Z');
@@ -121,5 +122,42 @@ class Metadata
     {
         $this->identifier = $identifier;
         return $this;
+    }
+
+    public function getSubjects(): array
+    {
+        return $this->subjects;
+    }
+
+    public function setSubjects(array $subjects): self
+    {
+        $this->subjects = $subjects;
+        return $this;
+    }
+
+    public function addSubject(string $subject): self
+    {
+        if (!in_array($subject, $this->subjects)) {
+            $this->subjects[] = $subject;
+        }
+        return $this;
+    }
+
+    public function removeSubject(string $subject): self
+    {
+        $this->subjects = array_filter($this->subjects, fn($s) => $s !== $subject);
+        $this->subjects = array_values($this->subjects); // Reindexar el array
+        return $this;
+    }
+
+    public function clearSubjects(): self
+    {
+        $this->subjects = [];
+        return $this;
+    }
+
+    public function hasSubject(string $subject): bool
+    {
+        return in_array($subject, $this->subjects);
     }
 }

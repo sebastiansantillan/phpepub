@@ -17,8 +17,8 @@ class Chapter
         private string $content,
         private string $filename = ''
     ) {
-        $this->filename = $filename ?: $this->generateFilename($title);
         $this->order = ++self::$chapterCounter;
+        $this->filename = $filename ?: $this->generateFilename($title);
     }
 
     public function getTitle(): string

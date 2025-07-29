@@ -143,6 +143,12 @@ class EpubGenerator
             $metadataElement->appendChild($publisher);
         }
 
+        // Subjects (materias/categorías)
+        foreach ($metadata->getSubjects() as $subject) {
+            $subjectElement = $dom->createElement('dc:subject', htmlspecialchars($subject));
+            $metadataElement->appendChild($subjectElement);
+        }
+
         $date = $dom->createElement('dc:date', $metadata->getPublicationDate());
         $metadataElement->appendChild($date);
 
