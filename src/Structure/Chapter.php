@@ -62,12 +62,12 @@ class Chapter
     /**
      * Genera el HTML completo del capítulo
      */
-    public function getHtmlContent(): string
+    public function getHtmlContent(string $language = 'en'): string
     {
         return sprintf(
             '<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%s" lang="%s">
 <head>
     <title>%s</title>
     <meta charset="utf-8"/>
@@ -77,6 +77,8 @@ class Chapter
     %s
 </body>
 </html>',
+            htmlspecialchars($language),
+            htmlspecialchars($language),
             htmlspecialchars($this->title),
             $this->content
         );
