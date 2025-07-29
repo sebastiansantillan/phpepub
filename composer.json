@@ -42,7 +42,8 @@
         ],
         "examples": [
             "php examples/basic_example.php",
-            "php examples/advanced_example.php"
+            "php examples/advanced_example.php",
+            "php examples/libro_avanzado_es.php"
         ]
     },
     "minimum-stability": "alpha",

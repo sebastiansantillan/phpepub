@@ -35,8 +35,8 @@ class EpubGenerator
             $this->addMimetype($zip);
             $this->addContainer($zip);
             $this->addPackageDocument($zip, $metadata, $chapters, $images, $stylesheets);
-            $this->addNavigationDocument($zip, $chapters);
-            $this->addChapters($zip, $chapters);
+            $this->addNavigationDocument($zip, $metadata, $chapters);
+            $this->addChapters($zip, $metadata, $chapters);
             $this->addDefaultStylesheet($zip);
             $this->addImages($zip, $images);
             $this->addStylesheets($zip, $stylesheets);
@@ -89,6 +89,7 @@ class EpubGenerator
         $package->setAttribute('version', self::EPUB_VERSION);
         $package->setAttribute('xmlns', 'http://www.idpf.org/2007/opf');
         $package->setAttribute('unique-identifier', 'BookId');
+        $package->setAttribute('xml:lang', $metadata->getLanguage());
         $dom->appendChild($package);
 
         // Metadata
@@ -135,6 +136,11 @@ class EpubGenerator
         if ($metadata->getDescription()) {
             $description = $dom->createElement('dc:description', htmlspecialchars($metadata->getDescription()));
             $metadataElement->appendChild($description);
+        }
+
+        if($metadata->getPublisher()) {
+            $publisher = $dom->createElement('dc:publisher', htmlspecialchars($metadata->getPublisher()));
+            $metadataElement->appendChild($publisher);
         }
 
         $date = $dom->createElement('dc:date', $metadata->getPublicationDate());
@@ -200,13 +206,13 @@ class EpubGenerator
         }
     }
 
-    private function addNavigationDocument(ZipArchive $zip, array $chapters): void
+    private function addNavigationDocument(ZipArchive $zip, Metadata $metadata, array $chapters): void
     {
-        $navContent = $this->generateNavigationDocument($chapters);
+        $navContent = $this->generateNavigationDocument($metadata, $chapters);
         $zip->addFromString('OEBPS/nav.xhtml', $navContent);
     }
 
-    private function generateNavigationDocument(array $chapters): string
+    private function generateNavigationDocument(Metadata $metadata, array $chapters): string
     {
         $linksHtml = '';
         foreach ($chapters as $chapter) {
@@ -215,9 +221,11 @@ class EpubGenerator
             $linksHtml .= "        <li><a href=\"Text/{$filename}\">{$title}</a></li>\n";
         }
 
+        $language = $metadata->getLanguage();
+        
         return '<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="' . $language . '" lang="' . $language . '">
 <head>
     <title>Tabla de Contenidos</title>
 </head>
@@ -231,10 +239,10 @@ class EpubGenerator
 </html>';
     }
 
-    private function addChapters(ZipArchive $zip, array $chapters): void
+    private function addChapters(ZipArchive $zip, Metadata $metadata, array $chapters): void
     {
         foreach ($chapters as $chapter) {
-            $zip->addFromString('OEBPS/Text/' . $chapter->getFilename(), $chapter->getHtmlContent());
+            $zip->addFromString('OEBPS/Text/' . $chapter->getFilename(), $chapter->getHtmlContent($metadata->getLanguage()));
         }
     }
 
