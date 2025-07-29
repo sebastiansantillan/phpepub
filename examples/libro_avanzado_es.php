@@ -123,7 +123,7 @@ try {
             <div class="apis-modernas">
                 <h3>🌍 Geolocalización</h3>
                 <pre><code>navigator.geolocation.getCurrentPosition(
-    position => {
+    position =&gt; {
         console.log("Latitud:", position.coords.latitude);
         console.log("Longitud:", position.coords.longitude);
     }
@@ -276,13 +276,13 @@ function sumar(a, b) {
 }
 
 // Arrow function
-const sumar = (a, b) => a + b;
+const sumar = (a, b) =&gt; a + b;
 
 // Con más lógica
-const procesarUsuarios = usuarios => {
+const procesarUsuarios = usuarios =&gt; {
     return usuarios
-        .filter(user => user.activo)
-        .map(user => ({
+        .filter(user =&gt; user.activo)
+        .map(user =&gt; ({
             ...user,
             nombreCompleto: `${user.nombre} ${user.apellido}`
         }));
@@ -304,7 +304,7 @@ const colores = ["rojo", "verde", "azul"];
 const [primario, secundario, ...otros] = colores;
 
 // En parámetros de función
-const presentarUsuario = ({ nombre, edad, profesion }) => {
+const presentarUsuario = ({ nombre, edad, profesion }) =&gt; {
     return `${nombre} tiene ${edad} años y es ${profesion}`;
 };</code></pre>
 
@@ -340,10 +340,10 @@ const mensajePrecio = `
             <div class="async-programming">
                 <h3>🔄 Promises y Async/Await</h3>
                 <pre><code>// Promise básica
-const obtenerDatos = () => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            const exito = Math.random() > 0.3;
+const obtenerDatos = () =&gt; {
+    return new Promise((resolve, reject) =&gt; {
+        setTimeout(() =&gt; {
+            const exito = Math.random() &gt; 0.3;
             if (exito) {
                 resolve({ datos: "Información importante" });
             } else {
@@ -354,7 +354,7 @@ const obtenerDatos = () => {
 };
 
 // Usando async/await
-const procesarDatos = async () => {
+const procesarDatos = async () =&gt; {
     try {
         console.log("Cargando datos...");
         const resultado = await obtenerDatos();
@@ -367,12 +367,12 @@ const procesarDatos = async () => {
 };
 
 // Múltiples operaciones asíncronas
-const obtenerDatosCompletos = async () => {
+const obtenerDatosCompletos = async () =&gt; {
     try {
         const [usuarios, productos, configuracion] = await Promise.all([
-            fetch("/api/usuarios").then(r => r.json()),
-            fetch("/api/productos").then(r => r.json()),
-            fetch("/api/config").then(r => r.json())
+            fetch("/api/usuarios").then(r =&gt; r.json()),
+            fetch("/api/productos").then(r =&gt; r.json()),
+            fetch("/api/config").then(r =&gt; r.json())
         ]);
         
         return { usuarios, productos, configuracion };
@@ -386,11 +386,11 @@ const obtenerDatosCompletos = async () => {
             <div class="modulos-es6">
                 <h3>📤 Export/Import</h3>
                 <pre><code>// utils.js - Exportaciones nombradas
-export const formatearFecha = (fecha) => {
+export const formatearFecha = (fecha) =&gt; {
     return fecha.toLocaleDateString("es-ES");
 };
 
-export const validarEmail = (email) => {
+export const validarEmail = (email) =&gt; {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 };

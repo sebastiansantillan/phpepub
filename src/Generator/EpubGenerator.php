@@ -137,6 +137,11 @@ class EpubGenerator
             $metadataElement->appendChild($description);
         }
 
+        if($metadata->getPublisher()) {
+            $publisher = $dom->createElement('dc:publisher', htmlspecialchars($metadata->getPublisher()));
+            $metadataElement->appendChild($publisher);
+        }
+
         $date = $dom->createElement('dc:date', $metadata->getPublicationDate());
         $metadataElement->appendChild($date);
 
