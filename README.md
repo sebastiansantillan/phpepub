@@ -1,4 +1,3 @@
-````markdown
 # PHPEpub
 
 [![Version](https://img.shields.io/badge/version-0.1.0--alpha-orange.svg)](https://github.com/sebastiansantillan/phpepub)
@@ -72,5 +71,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for changes in each version.
-
-````
