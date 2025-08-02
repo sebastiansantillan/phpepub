@@ -19,7 +19,8 @@ class Metadata
         private string $publicationDate = '',
         private string $cover = '',
         private string $identifier = '',
-        private array $subjects = []
+        private array $subjects = [],
+        private array $accessModes = ['textual', 'visual']
     ) {
         $this->identifier = $identifier ?: uniqid('epub_');
         $this->publicationDate = $publicationDate ?: date('Y-m-d\TH:i:s\Z');
@@ -159,5 +160,50 @@ class Metadata
     public function hasSubject(string $subject): bool
     {
         return in_array($subject, $this->subjects);
+    }
+
+    public function getAccessModes(): array
+    {
+        return $this->accessModes;
+    }
+
+    public function setAccessModes(array $accessModes): self
+    {
+        $this->accessModes = $accessModes;
+        return $this;
+    }
+
+    public function addAccessMode(string $accessMode): self
+    {
+        $validModes = ['textual', 'visual', 'auditory', 'tactile'];
+        
+        if (!in_array($accessMode, $validModes)) {
+            throw new \InvalidArgumentException(
+                "Invalid access mode: {$accessMode}. Valid modes are: " . implode(', ', $validModes)
+            );
+        }
+        
+        if (!in_array($accessMode, $this->accessModes)) {
+            $this->accessModes[] = $accessMode;
+        }
+        return $this;
+    }
+
+    public function removeAccessMode(string $accessMode): self
+    {
+        $this->accessModes = array_filter($this->accessModes, fn($mode) => $mode !== $accessMode);
+        $this->accessModes = array_values($this->accessModes); // Reindexar el array
+        return $this;
+    }
+
+    public function clearAccessModes(): self
+    {
+        $this->accessModes = [];
+        return $this;
+    }
+
+    public function hasAccessMode(string $accessMode): bool
+    {
+        return in_array($accessMode, $this->accessModes);
     }
 }

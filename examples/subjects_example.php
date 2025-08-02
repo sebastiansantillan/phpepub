@@ -25,7 +25,10 @@ try {
          ->addSubject('Bases de Datos')
          ->addSubject('Framework')
          ->addSubject('Laravel')
-         ->addSubject('Symfony');
+         ->addSubject('Symfony')
+         // Configurar metadatos de accesibilidad
+         ->addAccessMode('textual')
+         ->addAccessMode('visual'); // Para los ejemplos de código
 
     // También se pueden agregar subjects como array
     $moreSubjects = ['API', 'REST', 'GraphQL', 'Microservicios', 'Docker'];

@@ -149,6 +149,14 @@ class EpubGenerator
             $metadataElement->appendChild($subjectElement);
         }
 
+        // Schema.org accessibility metadata
+        foreach ($metadata->getAccessModes() as $accessMode) {
+            $accessModeElement = $dom->createElement('meta');
+            $accessModeElement->setAttribute('property', 'schema:accessMode');
+            $accessModeElement->setAttribute('content', $accessMode);
+            $metadataElement->appendChild($accessModeElement);
+        }
+
         $date = $dom->createElement('dc:date', $metadata->getPublicationDate());
         $metadataElement->appendChild($date);
 

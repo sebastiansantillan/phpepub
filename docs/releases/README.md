@@ -6,10 +6,11 @@ This directory contains detailed release notes for each version of PHPEpub.
 
 ### Alpha Releases
 
-- [v0.2.0-alpha](v0.2.0-alpha.md) - Latest alpha release (July 29, 2025)
+- [v0.2.0-alpha](v0.2.0-alpha.md) - Latest alpha release (August 2, 2025)
   - **NEW**: Subjects/Categories support for EPUB metadata
+  - **NEW**: Schema.org accessibility metadata (accessMode)
   - Complete API for managing book subjects and categories
-  - Enhanced Dublin Core metadata compliance
+  - Enhanced WCAG accessibility compliance with Schema.org
   - New comprehensive examples and test suite
   - Improved constructor parameter ordering
 - [v0.1.1-alpha](v0.1.1-alpha.md) - Accessibility release (July 29, 2025)

@@ -71,6 +71,15 @@ class EpubBuilder
     }
 
     /**
+     * Establece el editor/publisher del libro
+     */
+    public function setPublisher(string $publisher): self
+    {
+        $this->metadata->setPublisher($publisher);
+        return $this;
+    }
+
+    /**
      * Establece las materias/categorías del libro
      */
     public function setSubjects(array $subjects): self
@@ -85,6 +94,24 @@ class EpubBuilder
     public function addSubject(string $subject): self
     {
         $this->metadata->addSubject($subject);
+        return $this;
+    }
+
+    /**
+     * Establece los modos de acceso para accesibilidad
+     */
+    public function setAccessModes(array $accessModes): self
+    {
+        $this->metadata->setAccessModes($accessModes);
+        return $this;
+    }
+
+    /**
+     * Agrega un modo de acceso para accesibilidad
+     */
+    public function addAccessMode(string $accessMode): self
+    {
+        $this->metadata->addAccessMode($accessMode);
         return $this;
     }
 
