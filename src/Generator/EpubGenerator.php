@@ -95,6 +95,10 @@ class EpubGenerator
         // Metadata
         $metadataElement = $dom->createElement('metadata');
         $metadataElement->setAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
+        $metadataElement->setAttribute('xmlns:opf', 'http://www.idpf.org/2007/opf');
+        $metadataElement->setAttribute('xmlns:schema', 'http://schema.org/');
+        $metadataElement->setAttribute('xmlns:a11y', 'http://www.idpf.org/epub/vocab/package/a11y/#');
+        $metadataElement->setAttribute('xmlns:dcterms', 'http://purl.org/dc/terms/');
         $package->appendChild($metadataElement);
 
         $this->addMetadataElements($dom, $metadataElement, $metadata);
@@ -117,14 +121,11 @@ class EpubGenerator
 
     private function addMetadataElements(DOMDocument $dom, \DOMElement $metadataElement, Metadata $metadata): void
     {
-        // Elementos básicos
+        // === ELEMENTOS BÁSICOS OBLIGATORIOS (DC Core) ===
+        // Orden recomendado: title, language, identifier primero
+        
         $title = $dom->createElement('dc:title', htmlspecialchars($metadata->getTitle()));
         $metadataElement->appendChild($title);
-
-        if ($metadata->getAuthor()) {
-            $author = $dom->createElement('dc:creator', htmlspecialchars($metadata->getAuthor()));
-            $metadataElement->appendChild($author);
-        }
 
         $language = $dom->createElement('dc:language', $metadata->getLanguage());
         $metadataElement->appendChild($language);
@@ -132,6 +133,18 @@ class EpubGenerator
         $identifier = $dom->createElement('dc:identifier', $metadata->getIdentifier());
         $identifier->setAttribute('id', 'BookId');
         $metadataElement->appendChild($identifier);
+
+        // Meta elemento dcterms:modified (requerido por EPUB3)
+        $modified = $dom->createElement('meta', date('Y-m-d\TH:i:s\Z'));
+        $modified->setAttribute('property', 'dcterms:modified');
+        $metadataElement->appendChild($modified);
+
+        // === ELEMENTOS DUBLIN CORE OPCIONALES ===
+        
+        if ($metadata->getAuthor()) {
+            $author = $dom->createElement('dc:creator', htmlspecialchars($metadata->getAuthor()));
+            $metadataElement->appendChild($author);
+        }
 
         if ($metadata->getDescription()) {
             $description = $dom->createElement('dc:description', htmlspecialchars($metadata->getDescription()));
@@ -143,19 +156,91 @@ class EpubGenerator
             $metadataElement->appendChild($publisher);
         }
 
+        $date = $dom->createElement('dc:date', $metadata->getPublicationDate());
+        $metadataElement->appendChild($date);
+
         // Subjects (materias/categorías)
         foreach ($metadata->getSubjects() as $subject) {
             $subjectElement = $dom->createElement('dc:subject', htmlspecialchars($subject));
             $metadataElement->appendChild($subjectElement);
         }
 
-        $date = $dom->createElement('dc:date', $metadata->getPublicationDate());
-        $metadataElement->appendChild($date);
+        // === METADATOS DE ACCESIBILIDAD SCHEMA.ORG ===
+        
+        // Access Modes (obligatorio)
+        foreach ($metadata->getAccessModes() as $accessMode) {
+            $accessModeElement = $dom->createElement('meta', $accessMode);
+            $accessModeElement->setAttribute('property', 'schema:accessMode');
+            $metadataElement->appendChild($accessModeElement);
+        }
 
-        // Meta elementos
-        $modified = $dom->createElement('meta', date('Y-m-d\TH:i:s\Z'));
-        $modified->setAttribute('property', 'dcterms:modified');
-        $metadataElement->appendChild($modified);
+        // Access Mode Sufficient (recomendado) - usar solo la combinación más completa
+        $accessModeSufficient = $metadata->getAccessModeSufficient();
+        if (!empty($accessModeSufficient)) {
+            // Encontrar la combinación más completa (la que tenga más modos)
+            $mostComplete = [];
+            foreach ($accessModeSufficient as $combination) {
+                if (count($combination) > count($mostComplete)) {
+                    $mostComplete = $combination;
+                }
+            }
+            
+            if (!empty($mostComplete)) {
+                $accessModeSufficientElement = $dom->createElement('meta', implode(',', $mostComplete));
+                $accessModeSufficientElement->setAttribute('property', 'schema:accessModeSufficient');
+                $metadataElement->appendChild($accessModeSufficientElement);
+            }
+        }
+
+        // Accessibility Features (obligatorio)
+        foreach ($metadata->getAccessibilityFeatures() as $feature) {
+            $accessibilityFeatureElement = $dom->createElement('meta', $feature);
+            $accessibilityFeatureElement->setAttribute('property', 'schema:accessibilityFeature');
+            $metadataElement->appendChild($accessibilityFeatureElement);
+        }
+
+        // Accessibility Hazards (obligatorio)
+        foreach ($metadata->getAccessibilityHazards() as $hazard) {
+            $accessibilityHazardElement = $dom->createElement('meta', $hazard);
+            $accessibilityHazardElement->setAttribute('property', 'schema:accessibilityHazard');
+            $metadataElement->appendChild($accessibilityHazardElement);
+        }
+
+        // Accessibility Summary (recomendado)
+        if ($metadata->getAccessibilitySummary()) {
+            $accessibilitySummaryElement = $dom->createElement('meta', htmlspecialchars($metadata->getAccessibilitySummary()));
+            $accessibilitySummaryElement->setAttribute('property', 'schema:accessibilitySummary');
+            $metadataElement->appendChild($accessibilitySummaryElement);
+        }
+
+        // === METADATOS DE CERTIFICACIÓN EPUB ACCESSIBILITY 1.1 ===
+        
+        if ($metadata->getCertifiedBy()) {
+            $certifiedByElement = $dom->createElement('meta', htmlspecialchars($metadata->getCertifiedBy()));
+            $certifiedByElement->setAttribute('property', 'a11y:certifiedBy');
+            $metadataElement->appendChild($certifiedByElement);
+        }
+
+        if ($metadata->getCertifierCredential()) {
+            $certifierCredentialElement = $dom->createElement('meta', htmlspecialchars($metadata->getCertifierCredential()));
+            $certifierCredentialElement->setAttribute('property', 'a11y:certifierCredential');
+            $metadataElement->appendChild($certifierCredentialElement);
+        }
+
+        if ($metadata->getCertifierReport()) {
+            $certifierReportElement = $dom->createElement('meta', $metadata->getCertifierReport());
+            $certifierReportElement->setAttribute('property', 'a11y:certifierReport');
+            $metadataElement->appendChild($certifierReportElement);
+        }
+
+        // === METADATOS DE CUMPLIMIENTO (SOLO URLs VÁLIDAS) ===
+        
+        // Conforms To - solo URLs oficiales
+        foreach ($metadata->getConformsTo() as $standard) {
+            $conformsToElement = $dom->createElement('meta', $standard);
+            $conformsToElement->setAttribute('property', 'dcterms:conformsTo');
+            $metadataElement->appendChild($conformsToElement);
+        }
     }
 
     private function addManifestItems(DOMDocument $dom, \DOMElement $manifest, array $chapters, array $images, array $stylesheets): void

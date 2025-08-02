@@ -46,6 +46,6 @@
             "php examples/libro_avanzado_es.php"
         ]
     },
-    "minimum-stability": "alpha",
+    "minimum-stability": "beta",
     "prefer-stable": true
 }
