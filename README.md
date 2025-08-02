@@ -30,19 +30,7 @@ A modern PHP library for creating EPUB files easily and efficiently.
 composer require sebastiansantillan/phpepub:^0.3.0-beta
 ```
 
-### Alpha Version
-
-```bash
-composer require sebastiansantillan/phpepub:^0.2.0-alpha
-```
-
-### From repository (development)
-
-```bash
-composer require sebastiansantillan/phpepub:dev-main
-```
-
-> 📝 **Note**: As this is an alpha version, the API may change in future versions.
+> 📝 **Note**: As this is an beta version, the API may change in future versions.
 
 ## Basic Usage
 
@@ -96,11 +84,6 @@ For more information, check the [complete documentation](docs/README.md).
 ### Accessibility Documentation
 
 - [Complete Accessibility Guide](docs/accessibility.md) - Detailed accessibility implementation
-- [Accessibility Implementation Summary](ACCESSIBILITY_IMPLEMENTATION_SUMMARY.md) - Technical implementation details
-
-## Release Notes
-
-- [v0.1.0-alpha](docs/releases/v0.1.0-alpha.md) - First alpha release
 
 ## License
 
@@ -109,3 +92,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for changes in each version.
+
+## Links
+
+- [Packagist Package](https://packagist.org/packages/sebastiansantillan/phpepub)
+- [GitHub Releases](https://github.com/sebastiansantillan/phpepub/releases)
