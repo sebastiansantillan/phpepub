@@ -224,8 +224,9 @@ class MetadataFullAccessibilityTest extends TestCase
         $this->metadata->addConformsTo('EPUB Accessibility 1.1 - WCAG 2.1 Level AA')
                        ->addConformsTo('https://www.w3.org/TR/WCAG21/');
 
+        // El método ahora convierte automáticamente el texto a URLs
         $expected = [
-            'EPUB Accessibility 1.1 - WCAG 2.1 Level AA',
+            'http://www.idpf.org/epub/a11y/accessibility.html#wcag-aa',
             'https://www.w3.org/TR/WCAG21/'
         ];
         $this->assertEquals($expected, $this->metadata->getConformsTo());
@@ -233,17 +234,23 @@ class MetadataFullAccessibilityTest extends TestCase
 
     public function testConformsToAcceptsValidStandards(): void
     {
-        $validStandards = [
-            'EPUB Accessibility 1.1 - WCAG 2.0 Level A',
-            'EPUB Accessibility 1.1 - WCAG 2.1 Level AA',
-            'EPUB Accessibility 1.1 - WCAG 2.2 Level AAA'
+        $inputStandards = [
+            'EPUB Accessibility 1.1 - WCAG 2.0 Level A',      // Convertido a URLs automáticamente
+            'EPUB Accessibility 1.1 - WCAG 2.1 Level AA',     // Convertido a URLs automáticamente  
+            'EPUB Accessibility 1.1 - WCAG 2.2 Level AAA'     // Convertido a URLs automáticamente
         ];
 
-        foreach ($validStandards as $standard) {
+        foreach ($inputStandards as $standard) {
             $this->metadata->addConformsTo($standard);
         }
 
-        $this->assertEquals($validStandards, $this->metadata->getConformsTo());
+        // Ahora devuelve solo URLs válidas después de la conversión automática
+        $expected = [
+            'http://www.idpf.org/epub/a11y/accessibility.html#wcag-aa',  // WCAG 2.0 Level A
+            'https://www.w3.org/TR/WCAG21/',                             // WCAG 2.1 Level AA
+            'https://www.w3.org/TR/WCAG22/'                              // WCAG 2.2 Level AAA
+        ];
+        $this->assertEquals($expected, $this->metadata->getConformsTo());
     }
 
     public function testConformsToAcceptsValidUrls(): void
@@ -273,9 +280,13 @@ class MetadataFullAccessibilityTest extends TestCase
     {
         $this->metadata->addConformsTo('EPUB Accessibility 1.1 - WCAG 2.1 Level AA')
                        ->addConformsTo('https://www.w3.org/TR/WCAG21/')
-                       ->removeConformsTo('EPUB Accessibility 1.1 - WCAG 2.1 Level AA');
+                       ->removeConformsTo('http://www.idpf.org/epub/a11y/accessibility.html#wcag-aa');
 
-        $this->assertEquals(['https://www.w3.org/TR/WCAG21/'], $this->metadata->getConformsTo());
+        // Solo debe quedar la URL que se añadió directamente
+        $expected = [
+            'https://www.w3.org/TR/WCAG21/'
+        ];
+        $this->assertEquals($expected, $this->metadata->getConformsTo());
     }
 
     public function testConformsToCanBeCleared(): void
@@ -289,8 +300,11 @@ class MetadataFullAccessibilityTest extends TestCase
     {
         $standard = 'EPUB Accessibility 1.1 - WCAG 2.1 Level AA';
         $this->metadata->addConformsTo($standard);
-        $this->assertTrue($this->metadata->hasConformsTo($standard));
-        $this->assertFalse($this->metadata->hasConformsTo('EPUB Accessibility 1.1 - WCAG 2.0 Level A'));
+        
+        // Ahora el método convierte a URLs, así que verificamos contra las URLs generadas
+        $this->assertTrue($this->metadata->hasConformsTo('http://www.idpf.org/epub/a11y/accessibility.html#wcag-aa'));
+        $this->assertTrue($this->metadata->hasConformsTo('https://www.w3.org/TR/WCAG21/'));
+        $this->assertFalse($this->metadata->hasConformsTo('https://www.w3.org/TR/WCAG20/'));
     }
 
     // === Tests para Constructor con nuevos parámetros ===

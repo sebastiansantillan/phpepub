@@ -446,13 +446,38 @@ class Metadata
             'EPUB Accessibility 1.1 - WCAG 2.2 Level AAA'
         ];
         
-        // Permitir URLs personalizadas o estándares predefinidos
-        if (!in_array($standard, $validStandards) && !filter_var($standard, FILTER_VALIDATE_URL)) {
-            throw new \InvalidArgumentException(
-                "Invalid standard: {$standard}. Must be a valid URL or one of: " . implode(', ', array_slice($validStandards, 0, 3)) . ', etc.'
-            );
+        // Solo permitir URLs válidas (no texto libre)
+        if (!filter_var($standard, FILTER_VALIDATE_URL)) {
+            // Para estándares predefinidos, convertir a URLs oficiales
+            if (in_array($standard, $validStandards)) {
+                // Agregar automáticamente las URLs oficiales en lugar del texto
+                $urlsToAdd = [];
+                
+                if (str_contains($standard, 'WCAG 2.1 Level AA')) {
+                    $urlsToAdd[] = 'http://www.idpf.org/epub/a11y/accessibility.html#wcag-aa';
+                    $urlsToAdd[] = 'https://www.w3.org/TR/WCAG21/';
+                } elseif (str_contains($standard, 'WCAG 2.0 Level AA')) {
+                    $urlsToAdd[] = 'http://www.idpf.org/epub/a11y/accessibility.html#wcag-aa';
+                    $urlsToAdd[] = 'https://www.w3.org/TR/WCAG20/';
+                } elseif (str_contains($standard, 'WCAG 2.2 Level AA')) {
+                    $urlsToAdd[] = 'http://www.idpf.org/epub/a11y/accessibility.html#wcag-aa';
+                    $urlsToAdd[] = 'https://www.w3.org/TR/WCAG22/';
+                }
+                
+                foreach ($urlsToAdd as $url) {
+                    if (!in_array($url, $this->conformsTo)) {
+                        $this->conformsTo[] = $url;
+                    }
+                }
+                return $this;
+            } else {
+                throw new \InvalidArgumentException(
+                    "Invalid standard: {$standard}. Must be a valid URL or one of: " . implode(', ', array_slice($validStandards, 0, 3)) . ', etc.'
+                );
+            }
         }
         
+        // Es una URL válida, agregarla directamente
         if (!in_array($standard, $this->conformsTo)) {
             $this->conformsTo[] = $standard;
         }
