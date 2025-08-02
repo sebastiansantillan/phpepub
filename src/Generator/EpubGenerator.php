@@ -157,6 +157,68 @@ class EpubGenerator
             $metadataElement->appendChild($accessModeElement);
         }
 
+        // Access Mode Sufficient - combinaciones suficientes de modos de acceso
+        foreach ($metadata->getAccessModeSufficient() as $modesCombination) {
+            $accessModeSufficientElement = $dom->createElement('meta');
+            $accessModeSufficientElement->setAttribute('property', 'schema:accessModeSufficient');
+            $accessModeSufficientElement->setAttribute('content', implode(',', $modesCombination));
+            $metadataElement->appendChild($accessModeSufficientElement);
+        }
+
+        // Accessibility Features - características de accesibilidad
+        foreach ($metadata->getAccessibilityFeatures() as $feature) {
+            $accessibilityFeatureElement = $dom->createElement('meta');
+            $accessibilityFeatureElement->setAttribute('property', 'schema:accessibilityFeature');
+            $accessibilityFeatureElement->setAttribute('content', $feature);
+            $metadataElement->appendChild($accessibilityFeatureElement);
+        }
+
+        // Accessibility Hazards - riesgos de accesibilidad
+        foreach ($metadata->getAccessibilityHazards() as $hazard) {
+            $accessibilityHazardElement = $dom->createElement('meta');
+            $accessibilityHazardElement->setAttribute('property', 'schema:accessibilityHazard');
+            $accessibilityHazardElement->setAttribute('content', $hazard);
+            $metadataElement->appendChild($accessibilityHazardElement);
+        }
+
+        // Accessibility Summary - resumen de accesibilidad
+        if ($metadata->getAccessibilitySummary()) {
+            $accessibilitySummaryElement = $dom->createElement('meta');
+            $accessibilitySummaryElement->setAttribute('property', 'schema:accessibilitySummary');
+            $accessibilitySummaryElement->setAttribute('content', htmlspecialchars($metadata->getAccessibilitySummary()));
+            $metadataElement->appendChild($accessibilitySummaryElement);
+        }
+
+        // EPUB Accessibility 1.1 Certification metadata
+        if ($metadata->getCertifiedBy()) {
+            $certifiedByElement = $dom->createElement('meta');
+            $certifiedByElement->setAttribute('property', 'a11y:certifiedBy');
+            $certifiedByElement->setAttribute('content', htmlspecialchars($metadata->getCertifiedBy()));
+            $metadataElement->appendChild($certifiedByElement);
+        }
+
+        if ($metadata->getCertifierCredential()) {
+            $certifierCredentialElement = $dom->createElement('meta');
+            $certifierCredentialElement->setAttribute('property', 'a11y:certifierCredential');
+            $certifierCredentialElement->setAttribute('content', htmlspecialchars($metadata->getCertifierCredential()));
+            $metadataElement->appendChild($certifierCredentialElement);
+        }
+
+        if ($metadata->getCertifierReport()) {
+            $certifierReportElement = $dom->createElement('meta');
+            $certifierReportElement->setAttribute('property', 'a11y:certifierReport');
+            $certifierReportElement->setAttribute('content', $metadata->getCertifierReport());
+            $metadataElement->appendChild($certifierReportElement);
+        }
+
+        // Conforms To - estándares de accesibilidad
+        foreach ($metadata->getConformsTo() as $standard) {
+            $conformsToElement = $dom->createElement('meta');
+            $conformsToElement->setAttribute('property', 'dcterms:conformsTo');
+            $conformsToElement->setAttribute('content', $standard);
+            $metadataElement->appendChild($conformsToElement);
+        }
+
         $date = $dom->createElement('dc:date', $metadata->getPublicationDate());
         $metadataElement->appendChild($date);
 

@@ -211,4 +211,114 @@ class EpubBuilder
     {
         return $this->chapters;
     }
+
+    // === Métodos para Metadatos de Accesibilidad EPUB Accessibility 1.1 ===
+
+    /**
+     * Establece las combinaciones suficientes de modos de acceso
+     */
+    public function setAccessModeSufficient(array $accessModeSufficient): self
+    {
+        $this->metadata->setAccessModeSufficient($accessModeSufficient);
+        return $this;
+    }
+
+    /**
+     * Agrega una combinación suficiente de modos de acceso
+     */
+    public function addAccessModeSufficient(array $modesCombination): self
+    {
+        $this->metadata->addAccessModeSufficient($modesCombination);
+        return $this;
+    }
+
+    /**
+     * Establece las características de accesibilidad
+     */
+    public function setAccessibilityFeatures(array $features): self
+    {
+        $this->metadata->setAccessibilityFeatures($features);
+        return $this;
+    }
+
+    /**
+     * Agrega una característica de accesibilidad
+     */
+    public function addAccessibilityFeature(string $feature): self
+    {
+        $this->metadata->addAccessibilityFeature($feature);
+        return $this;
+    }
+
+    /**
+     * Establece los riesgos de accesibilidad
+     */
+    public function setAccessibilityHazards(array $hazards): self
+    {
+        $this->metadata->setAccessibilityHazards($hazards);
+        return $this;
+    }
+
+    /**
+     * Agrega un riesgo de accesibilidad
+     */
+    public function addAccessibilityHazard(string $hazard): self
+    {
+        $this->metadata->addAccessibilityHazard($hazard);
+        return $this;
+    }
+
+    /**
+     * Establece el resumen de accesibilidad
+     */
+    public function setAccessibilitySummary(string $summary): self
+    {
+        $this->metadata->setAccessibilitySummary($summary);
+        return $this;
+    }
+
+    /**
+     * Establece quién certifica la accesibilidad
+     */
+    public function setCertifiedBy(string $certifiedBy): self
+    {
+        $this->metadata->setCertifiedBy($certifiedBy);
+        return $this;
+    }
+
+    /**
+     * Establece las credenciales del certificador
+     */
+    public function setCertifierCredential(string $credential): self
+    {
+        $this->metadata->setCertifierCredential($credential);
+        return $this;
+    }
+
+    /**
+     * Establece el reporte del certificador
+     */
+    public function setCertifierReport(string $report): self
+    {
+        $this->metadata->setCertifierReport($report);
+        return $this;
+    }
+
+    /**
+     * Establece los estándares con los que cumple
+     */
+    public function setConformsTo(array $standards): self
+    {
+        $this->metadata->setConformsTo($standards);
+        return $this;
+    }
+
+    /**
+     * Agrega un estándar con el que cumple
+     */
+    public function addConformsTo(string $standard): self
+    {
+        $this->metadata->addConformsTo($standard);
+        return $this;
+    }
 }
